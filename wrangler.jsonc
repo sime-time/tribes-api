@@ -6,6 +6,9 @@
   "observability": {
     "enabled": true
   },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "d1_databases": [
     {
       "binding": "DB",
@@ -14,9 +17,6 @@
       "migrations_dir": "./src/db/migrations"
     }
   ]
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
   // // "vars": {
   //   "MY_VAR": "my-variable"
   // },
