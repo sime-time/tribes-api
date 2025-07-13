@@ -7,22 +7,6 @@ import { Resend } from "resend";
 import { cryptoHash, cryptoVerify } from "./crypto";
 import * as authSchema from "../db/schema/auth-schema";
 
-// Helper function to convert ArrayBuffer to Hex string
-function bufferToHex(buffer: ArrayBuffer | Uint8Array<ArrayBuffer>) {
-  return [...new Uint8Array(buffer)]
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-// Helper function to convert Hex string to ArrayBuffer
-function hexToBuffer(hex: string) {
-  const bytes = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < hex.length; i += 2) {
-    bytes[i / 2] = parseInt(hex.substring(i, i + 2), 16);
-  }
-  return bytes.buffer;
-}
-
 export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => {
   const db = drizzle(env.DB);
   const resend = new Resend(env.RESEND_API_KEY);
@@ -36,7 +20,7 @@ export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => 
     emailAndPassword: {
       enabled: true,
       password: {
-        // better-auth uses scrypt by default which is CPU-intensive
+        // better-auth uses scrypt by default which is CPU-intensive (but secure)
         // and not suitable for serverless environments like Cloudflare Workers
         async hash(password: string) {
           return await cryptoHash(password);
@@ -60,7 +44,8 @@ export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => 
     ],
     advanced: {
       defaultCookieAttributes: {
-        // enable cross-domain cookies (separate frontend and backend)
+        // delete this option if using the same domain for frontend and backend
+        // this enables cross-domain cookies (separate frontend and backend)
         sameSite: "none",
         secure: true,
         partitioned: true,
