@@ -20,7 +20,7 @@ app.use('*', async (c, next) => {
 });
 
 // catch-all route for better-auth
-app.on(["GET", "POST"], "/api/auth/*", (c) => {
+app.on(["GET", "POST", "OPTIONS"], "/api/auth/*", (c) => {
   return auth(c.env).handler(c.req.raw);
 });
 
