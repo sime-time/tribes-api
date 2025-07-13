@@ -1,4 +1,4 @@
-import { Context, Hono } from "hono";
+import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { auth } from "./lib/auth";
 import { CloudflareBindings } from "./config/bindings";
@@ -23,7 +23,7 @@ app.on(["GET", "POST"], "/api/auth/*", (c) => {
   return auth(c.env).handler(c.req.raw);
 });
 
-app.get("/", (c) => {
+app.get("/api", (c) => {
   return c.text("Hello Hono");
 });
 

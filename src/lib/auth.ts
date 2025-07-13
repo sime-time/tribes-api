@@ -37,15 +37,10 @@ export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => 
         // because we will use sql-lite's primary key integers
         generateId: false
       },
-      cookies: {
-        session_token: {
-          attributes: {
-            // allows frontend and backend to use different domains in production
-            sameSite: "none", // default 'lax'
-            secure: true,
-            partitioned: true,
-          }
-        }
+      defaultCookieAttributes: {
+        sameSite: "none",
+        secure: true,
+        partitioned: true,
       },
     },
   })
