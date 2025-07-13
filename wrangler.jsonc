@@ -6,6 +6,9 @@
   "observability": {
     "enabled": true
   },
+  "routes": [
+    "api.sitedonenow.com/*",
+  ],
   "d1_databases": [
     {
       "binding": "DB",

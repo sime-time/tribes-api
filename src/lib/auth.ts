@@ -43,12 +43,8 @@ export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => 
       }),
     ],
     advanced: {
-      defaultCookieAttributes: {
-        // delete this option if using the same domain for frontend and backend
-        // this enables cross-domain cookies (separate frontend and backend)
-        sameSite: "none",
-        secure: true,
-        partitioned: true,
+      crossSubDomainCookies: {
+        enabled: true,
       },
       database: {
         // don't use better-auth's default uuid generation
