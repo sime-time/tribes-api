@@ -23,7 +23,7 @@ app.on(["GET", "POST"], "/api/auth/*", (c) => {
   return auth(c.env).handler(c.req.raw);
 });
 
-app.get("/api", (c) => {
+app.get("/", (c) => {
   return c.text("Hello Hono");
 });
 
