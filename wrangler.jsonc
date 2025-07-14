@@ -1,13 +1,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tribes-api",
+  "name": "habitribe-api",
   "main": "src/server.ts",
   "compatibility_date": "2025-07-12",
   "observability": {
     "enabled": true
   },
   "routes": [
-    "api.sitedonenow.com/*",
+    "api.habitribe.app/*",
   ],
   "d1_databases": [
     {
