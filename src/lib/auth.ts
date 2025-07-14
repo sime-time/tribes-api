@@ -16,6 +16,7 @@ export const auth = (env: CloudflareBindings): ReturnType<typeof betterAuth> => 
       provider: "sqlite",
       schema: authSchema,
     }),
+    baseURL: env.SERVER_BASE_URL,
     trustedOrigins: [env.CLIENT_ORIGIN_URL],
     emailAndPassword: {
       enabled: true,
