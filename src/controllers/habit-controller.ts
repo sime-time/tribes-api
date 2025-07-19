@@ -9,6 +9,7 @@ export async function createHabit(c: Context) {
   try {
     const {
       name,
+      userId,
       icon,
       goalValue,
       goalUnit,
@@ -17,13 +18,14 @@ export async function createHabit(c: Context) {
       schedule,
     } = HabitSchema.parse(body);
 
-    if (!name || !goalValue || !goalUnit || !reminderEnabled) {
-      return c.json({ error: "Missing required fields" }, 400);
+    if (!name || !userId || !goalValue || !goalUnit || !schedule) {
+      return c.json({ error: "Missing required field(s)" }, 400);
     }
 
     const db = drizzle(c.env.DB);
     const newHabit = await db.insert(habit).values({
       name,
+      userId,
       icon,
       goalValue,
       goalUnit,
@@ -35,7 +37,30 @@ export async function createHabit(c: Context) {
     return c.json({ added: newHabit[0] }, 201);
 
   } catch (error) {
-    console.error("Error adding habit", error);
+    console.error("Error creating habit", error);
+    return c.json({ error: "Something went wrong" }, 500);
+  }
+}
+
+export async function deleteHabit(c: Context) {
+  const { id } = c.req.param();
+  try {
+    const db = drizzle(c.env.DB);
+    const deletedHabit = await db
+      .delete(habit)
+      .where(
+        eq(habit.id, parseInt(id))
+      )
+      .returning();
+
+    if (deletedHabit.length === 0) {
+      return c.json({ error: `Habit id:${id} not found. No habit deleted.` }, 404);
+    }
+
+    return c.json({ deleted: deletedHabit[0] }, 200)
+
+  } catch (error) {
+    console.error("Error deleting habit", error);
     return c.json({ error: "Something went wrong" }, 500);
   }
 }

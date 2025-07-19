@@ -2,6 +2,7 @@ import { z } from "zod/v4";
 
 export const HabitSchema = z.object({
   name: z.string().min(1),
+  userId: z.coerce.number(),
   icon: z.string().optional(),
   goalValue: z.coerce.number().min(0),
   goalUnit: z.string().min(1),

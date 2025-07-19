@@ -1,7 +1,9 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { user } from "./auth-schema";
 
 export const habit = sqliteTable("habit", {
   id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   icon: text("icon"),
 
