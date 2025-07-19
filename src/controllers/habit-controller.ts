@@ -64,3 +64,22 @@ export async function deleteHabit(c: Context) {
     return c.json({ error: "Something went wrong" }, 500);
   }
 }
+
+export async function getUserHabits(c: Context) {
+  const { userId } = c.req.param();
+  try {
+    const db = drizzle(c.env.DB);
+    const userHabits = await db
+      .select()
+      .from(habit)
+      .where(
+        eq((habit.userId), parseInt(userId))
+      );
+
+    return c.json(userHabits, 200);
+
+  } catch (error) {
+    console.error("Error getting user habits", error);
+    return c.json({ error: "Something went wrong" }, 500);
+  }
+}
