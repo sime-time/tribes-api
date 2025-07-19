@@ -2,10 +2,11 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { auth } from "./lib/auth";
 import { CloudflareBindings } from "./config/bindings";
+import habitRoute from "./routes/habit-route";
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
 
-// middleware
+// cors middleware
 app.use('*', async (c, next) => {
   const originUrl = c.env.CLIENT_ORIGIN_URL;
   const corsMiddleware = cors({
@@ -23,6 +24,9 @@ app.use('*', async (c, next) => {
 app.on(["GET", "POST"], "/api/auth/*", (c) => {
   return auth(c.env).handler(c.req.raw);
 });
+
+// habit route
+app.route("/api/habit", habitRoute)
 
 app.get("/", (c) => {
   return c.text("Hello Hono");

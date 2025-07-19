@@ -1,0 +1,1 @@
+ALTER TABLE `habit` RENAME COLUMN "repetiton_pattern" TO "schedule";
