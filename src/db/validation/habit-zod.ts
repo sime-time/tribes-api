@@ -5,9 +5,9 @@ export const HabitSchema = z.object({
   userId: z.coerce.number(),
   icon: z.string().optional(),
   goalValue: z.coerce.number().min(0),
-  goalUnit: z.string().min(1),
+  goalUnit: z.enum(['minutes', 'count']),
   schedule: z.object({
-    type: z.string().min(1), // "daily", "weekly", or "monthly"
+    type: z.string().min(1), // "daily" or "weekly"
     days: z.array(z.number()).optional(),
   }),
   reminderEnabled: z.boolean().default(false),
